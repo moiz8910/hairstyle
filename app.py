@@ -1,4 +1,3 @@
-
 import streamlit as st
 import os
 from PIL import Image, ImageOps
@@ -10,6 +9,18 @@ from tensorflow.keras.applications.resnet50 import ResNet50, preprocess_input
 from sklearn.neighbors import NearestNeighbors
 from numpy.linalg import norm
 import pickle
+
+# Load your feature_list and filenames data
+feature_list = np.array(pickle.load(open('embeddings.pkl', 'rb')))
+filenames = pickle.load(open('filenames.pkl', 'rb'))
+
+model = ResNet50(weights='imagenet', include_top=False, input_shape=(224, 224, 3))
+model.trainable = False
+
+feature_extractor = tf.keras.Sequential([
+    model,
+    GlobalMaxPooling2D()
+])
 
 # Define the background CSS
 background_css = """
@@ -36,19 +47,7 @@ background_css = """
 st.markdown(background_css, unsafe_allow_html=True)
 
 # Display the "S" letters on the left and right
-st.write('<div class="letter">#SyncStore</div>', unsafe_allow_html=True)
-
-# Load your feature_list and filenames data
-feature_list = np.array(pickle.load(open('embeddings.pkl', 'rb')))
-filenames = pickle.load(open('filenames.pkl', 'rb'))
-
-model = ResNet50(weights='imagenet', include_top=False, input_shape=(224, 224, 3))
-model.trainable = False
-
-feature_extractor = tf.keras.Sequential([
-    model,
-    GlobalMaxPooling2D()
-])
+st.write('<div class="letter">#YourHairstyle</div>', unsafe_allow_html=True)
 
 # Styling for the tagline
 st.markdown(
@@ -65,7 +64,7 @@ st.markdown(
 st.markdown(
     '<div style="text-align: center; padding: 20px; background-color: #FF5733;">'
     '<p style="font-size: 24px; font-weight: bold; color: black;">'
-    'Unlock Your Ideal Hairstyle with Our Advanced Recommending System, Then Elevate It with Expert-Recommended Hair Products!'
+    'Discover Your Perfect Hairstyle with Our Advanced Recommending System'
     '</p>'
     '</div>',
     unsafe_allow_html=True
@@ -149,7 +148,7 @@ if uploaded_file is not None:
 # Styling for the tagline
 st.markdown(
     '<p style="text-align: center; padding: 20px; font-size: 24px; font-weight: bold; color: #FF5733;">'
-    'Elevate Your Style with Tailored Hair Products – Click to Shine!'
+    'Discover Your Perfect Hairstyle Today!'
     '</p>',
     unsafe_allow_html=True
 )
