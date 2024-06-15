@@ -219,7 +219,8 @@ background_css = """
 st.markdown(background_css, unsafe_allow_html=True)
 
 # Display the "S" letters on the left and right
-st.write('<div class="letter">#YourHairstyle</div>', unsafe_allow_html=True)
+st.write('<div style="font-size: 36px; font-weight: bold; color: #FFD700; text-shadow: 2px 2px 4px #000000;">Style Your Look, Find Your Perfect Hairstyle!</div>', unsafe_allow_html=True)
+
 
 # Styling for the tagline
 st.markdown(
@@ -332,18 +333,3 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# Center-align the "Buy Now" button and add a cart icon
-buy_now_html = """
-<div style="text-align: center;">
-  <a href="http://localhost:3000/products?category=cosmetics%20and%20body%20care" 
-     style="text-decoration: none; color: white;">
-    <button style="font-size: 18px; padding: 10px 20px; background-color: #008CBA; color: white; border: none; border-radius: 5px;">
-      Buy Now
-      <i class="fa fa-shopping-cart" style="margin-left: 5px;"></i>
-    </button>
-  </a>
-</div>
-"""
-
-# Render the HTML for the "Buy Now" button
-st.markdown(buy_now_html, unsafe_allow_html=True)
