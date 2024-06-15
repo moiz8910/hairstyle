@@ -1,3 +1,4 @@
+
 import streamlit as st
 import os
 from PIL import Image, ImageOps
@@ -70,6 +71,10 @@ st.markdown(
     unsafe_allow_html=True
 )
 
+@st.cache(allow_output_mutation=True)
+def load_model():
+    return feature_extractor
+
 def save_uploaded_file(uploaded_file):
     try:
         with open(os.path.join('uploads', uploaded_file.name), 'wb') as f:
@@ -79,6 +84,7 @@ def save_uploaded_file(uploaded_file):
         print("Error:", e)
         return False
 
+@st.cache
 def feature_extraction(img_path, model):
     img = image.load_img(img_path, target_size=(224, 224))
     img_array = image.img_to_array(img)
@@ -89,6 +95,7 @@ def feature_extraction(img_path, model):
 
     return normalized_result
 
+@st.cache
 def recommend(features, feature_list):
     neighbors = NearestNeighbors(n_neighbors=6, algorithm='brute', metric='euclidean')
     neighbors.fit(feature_list)
@@ -107,7 +114,8 @@ if uploaded_file is not None:
         display_image = display_image.resize(uploaded_image_size)
         st.image(display_image, use_column_width=True)
         # feature extract
-        features = feature_extraction(os.path.join("uploads", uploaded_file.name), feature_extractor)
+        model = load_model()
+        features = feature_extraction(os.path.join("uploads", uploaded_file.name), model)
         # recommendation
         indices = recommend(features, feature_list)
         # show recommended images
